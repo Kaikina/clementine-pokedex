@@ -1,53 +1,85 @@
 <template>
   <section class="section">
-    <div class="columns is-mobile">
-      <card
-        title="Free"
-        icon="github-circle"
-      >
-        Open source on <a href="https://github.com/buefy/buefy">
-          GitHub
-        </a>
-      </card>
-
-      <card
-        title="Responsive"
-        icon="cellphone-link"
-      >
-        <b class="has-text-grey">
-          Every
-        </b> component is responsive
-      </card>
-
-      <card
-        title="Modern"
-        icon="alert-decagram"
-      >
-        Built with <a href="https://vuejs.org/">
-          Vue.js
-        </a> and <a href="http://bulma.io/">
-          Bulma
-        </a>
-      </card>
-
-      <card
-        title="Lightweight"
-        icon="arrange-bring-to-front"
-      >
-        No other internal dependency
-      </card>
-    </div>
+    <b-table
+      :data="pokemons"
+      :loading="loading"
+      paginated
+      backend-pagination
+      :total="total"
+      :per-page="perPage"
+      @page-change="onPageChange"
+      aria-next-label="Page Suivante"
+      aria-previous-label="Page Précédente"
+      aria-page-label="Page"
+      sticky-header
+      height="600"
+      aria-current-label="Page Actuelle">
+      <template slot-scope="props">
+        <b-table-column field="pkmn_name" label="Nom" searchable>
+          <nuxt-link :to="{ name: 'pokemons-id', params: { id: props.row.id } }">{{ props.row.pkmn_name }}</nuxt-link>
+        </b-table-column>
+      </template>
+    </b-table>
   </section>
 </template>
 
 <script>
-import Card from '~/components/Card'
-
-export default {
-  name: 'HomePage',
-
-  components: {
-    Card
+  export default {
+    name: "index",
+    head () {
+      return {
+        title: 'Pokédex Clémentine'
+      }
+    },
+    data () {
+      return {
+        pokemons: [],
+        total: 0,
+        loading: false,
+        page: 1,
+        perPage: 100,
+        nextPage: null,
+        previousPage: null,
+        offset: 0
+      }
+    },
+    mounted() {
+      this.loadAsyncData();
+    },
+    methods: {
+      loadAsyncData() {
+        this.loading = true;
+        fetch('https://pokeapi.co/api/v2/pokemon/?limit=100&offset=' + this.offset)
+          .then(response => {
+            response.json().then(pokemons => {
+              this.pokemons = [];
+              this.nextPage = pokemons.next;
+              this.previousPage = pokemons.previous;
+              this.total = pokemons.count;
+              pokemons.results.forEach((pkmn) => {
+                fetch(pkmn.url).then(response => {
+                  response.json().then(pkmn_details => {
+                    this.pokemons.push({
+                      id: pkmn_details.id,
+                      pkmn_name: pkmn.name.charAt(0).toUpperCase() + pkmn.name.slice(1),
+                      sprite: pkmn_details.sprites.front_default,
+                      url: pkmn.url});
+                  })
+                });
+              });
+              this.loading = false;
+            })
+          })
+      },
+      onPageChange(page) {
+        this.offset = (page - 1) * 100;
+        this.page = page;
+        this.loadAsyncData();
+      }
+    }
   }
-}
 </script>
+
+<style scoped>
+
+</style>
