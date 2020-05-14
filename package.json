@@ -1,0 +1,19 @@
+{
+  "name": "clementine-pokedex",
+  "version": "1.0.0",
+  "description": "Pokédex et créateur d&#39;équipe pour le test technique de la société Clémentine",
+  "author": "tgirou",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
+  },
+  "dependencies": {
+    "nuxt": "^2.0.0",
+    "nuxt-buefy": "^0.3.2",
+    "@nuxtjs/axios": "^5.3.6"
+  },
+  "devDependencies": {}
+}
