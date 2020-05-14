@@ -45,7 +45,7 @@
                     </header>
                     <section class="modal-card-body">
                         <ul>
-                            <li></li>
+                            <li v-for="pkmn in this.$store.state.team.pokemons"><img :src="pkmn" alt=""></li>
                         </ul>
                     </section>
                     <footer class="modal-card-foot">
@@ -59,6 +59,11 @@
   export default {
     components: {
       Modal
+    },
+    computed: {
+      team () {
+        console.log(this.$store.state.team);
+      }
     },
     data () {
       return {

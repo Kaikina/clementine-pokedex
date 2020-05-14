@@ -33,6 +33,11 @@
               {{ this.ability.charAt(0).toUpperCase() + this.ability.slice(1) }}</p>
           </div>
         </div>
+        <div class="columns">
+          <div class="column">
+            <b-button type="is-primary" @click="clickAdd">Ajouter à mon équipe</b-button>
+          </div>
+        </div>
       </div>
       <div class="column"></div>
     </div>
@@ -64,6 +69,15 @@
       const genera = specie.genera.find(genus => genus.language.name === "en");
       return {details : details, ability: ability.ability.name, description: flavor.flavor_text,
         genus: genera.genus, loading: false}
+    },
+    methods: {
+      clickAdd() {
+        this.$store.commit('team/add', this.details.sprites.front_default);
+        this.$buefy.toast.open({
+          message: 'Pokémon ajouté à l\'équipe !',
+          type: 'is-success'
+        })
+      }
     }
   }
 </script>
