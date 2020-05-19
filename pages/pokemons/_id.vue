@@ -1,7 +1,7 @@
 <template>
   <section>
     <div class="columns is-centered">
-      <div class="column is-half">
+      <div class="column is-narrow">
         <h1 class="title">{{ this.details.name.charAt(0).toUpperCase() + this.details.name.slice(1) }}</h1>
       </div>
     </div>
@@ -72,7 +72,7 @@
     },
     methods: {
       clickAdd() {
-        this.$store.commit('team/add', this.details.sprites.front_default);
+        this.$store.commit('team/add', { id: this.id, sprite: this.details.sprites.front_default });
         this.$buefy.toast.open({
           message: 'Pokémon ajouté à l\'équipe !',
           type: 'is-success'

@@ -3,9 +3,9 @@ export const state = () => ({
 });
 
 export const mutations = {
-  add (state, imgUrl) {
+  add (state, pkmn) {
     if (state.pokemons.length < 6) {
-      state.pokemons.push(imgUrl);
+      state.pokemons.push(pkmn);
     }
   }
 };
