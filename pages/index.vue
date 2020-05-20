@@ -16,7 +16,10 @@
       aria-current-label="Page Actuelle">
       <template slot-scope="props">
         <b-table-column field="pkmn_name" label="Nom" searchable>
-          <nuxt-link :to="{ name: 'pokemons-id', params: { id: props.row.id } }">{{ props.row.pkmn_name }}</nuxt-link>
+          <nuxt-link :to="{ name: 'pokemons-id', params: { id: props.row.id } }" class="v-align">
+            <figure class="image is-48x48 is-pulled-left">
+              <img :src="props.row.sprite" alt="">
+            </figure>{{ props.row.pkmn_name }}</nuxt-link>
         </b-table-column>
       </template>
     </b-table>
@@ -56,13 +59,17 @@
               this.nextPage = pokemons.next;
               this.previousPage = pokemons.previous;
               this.total = pokemons.count;
-              const regex = /(?<=pokemon\/)(.*)(?=\/)/gm;
               pokemons.results.forEach((pkmn) => {
-                this.pokemons.push({
-                  id: pkmn.url.match(regex)[0],
-                  pkmn_name: pkmn.name.charAt(0).toUpperCase() + pkmn.name.slice(1),
-                  url: pkmn.url});
-                  })  ;
+                fetch(pkmn.url).then(response => {
+                  response.json().then(pkmn_details => {
+                    this.pokemons.push({
+                      id: pkmn_details.id,
+                      pkmn_name: pkmn.name.charAt(0).toUpperCase() + pkmn.name.slice(1),
+                      sprite: pkmn_details.sprites.front_default,
+                      url: pkmn.url});
+                  })
+                });
+              });
               this.loading = false;
             })
           })
@@ -77,5 +84,7 @@
 </script>
 
 <style scoped>
-
+  .v-align {
+    line-height: 48px;
+  }
 </style>

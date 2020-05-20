@@ -1,5 +1,14 @@
 <template>
   <section>
+    <div class="columns">
+      <div class="column">
+        <b-button size="is-large"
+                  type="is-primary"
+                  @click="$router.back()"
+                  icon-left="reply">
+        </b-button>
+      </div>
+    </div>
     <div class="columns is-centered">
       <div class="column is-narrow">
         <h1 class="title">{{ this.details.name.charAt(0).toUpperCase() + this.details.name.slice(1) }}</h1>
