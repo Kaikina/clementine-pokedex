@@ -5,13 +5,17 @@
     </header>
     <section class="modal-card-body">
       <div class="columns is-mobile">
-        <template v-for="pkmn in this.$store.state.team.pokemons">
-          <div class="column is-narrow">
-            <figure class="image is-96x96">
-              <img :src="pkmn.sprite" alt="" class="modal-img">
-            </figure>
-          </div>
-        </template>
+        <div v-for="(pkmn, index) in this.$store.state.team.pokemons" :key="index">
+          <template>
+            <div class="column is-narrow has-text-centered">
+              <figure class="image is-96x96">
+                <img :src="pkmn.sprite" alt="" class="modal-img">
+              </figure>
+              <b-button size="is-small" rounded type="is-danger"
+                        icon-right="close-thick" @click="clickRemove(index)" />
+            </div>
+          </template>
+        </div>
       </div>
     </section>
     <footer class="modal-card-foot">
@@ -39,6 +43,9 @@
           console.error(e);
         }
       },
+      clickRemove(index) {
+        this.$store.commit('team/remove', index);
+      }
     }
   }
 </script>

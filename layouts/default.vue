@@ -45,11 +45,6 @@
     components: {
       Modal
     },
-    computed: {
-      team () {
-        console.log(this.$store.state.team);
-      }
-    },
     data () {
       return {
         isComponentModalActive: false

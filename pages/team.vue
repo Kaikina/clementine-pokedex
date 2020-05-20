@@ -50,26 +50,5 @@
         this.pokemons.push(res);
       }
     }
-    // mounted() {
-    //   this.loadAsyncData();
-    // },
-    // methods: {
-    //   loadAsyncData() {
-    //     this.loading = true;
-    //     if (Array.isArray(this.$route.query.id)) {
-    //       this.$route.query.id.forEach(id => {
-    //         fetch('https://pokeapi.co/api/v2/pokemon/' + id).then(response =>
-    //           response.json().then(details =>
-    //             this.pokemons.push(details)));
-    //       })
-    //     } else {
-    //       fetch('https://pokeapi.co/api/v2/pokemon/' + this.$route.query.id).then(response =>
-    //         response.json().then(details =>
-    //           this.pokemons.push(details)));
-    //     }
-    //     this.loading = false;
-    //     console.log(this.pokemons);
-    //   }
-    // }
   }
 </script>
