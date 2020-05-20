@@ -21,6 +21,13 @@
               <img :src="props.row.sprite" alt="">
             </figure>{{ props.row.pkmn_name }}</nuxt-link>
         </b-table-column>
+        <b-table-column class="td-v-align">
+          <b-button size="is-small"
+                    type="is-primary"
+                    @click="clickAdd({id: props.row.id, sprite: props.row.sprite })"
+                    icon-left="plus">
+          </b-button>
+        </b-table-column>
       </template>
     </b-table>
   </section>
@@ -78,6 +85,13 @@
         this.offset = (page - 1) * 100;
         this.page = page;
         this.loadAsyncData();
+      },
+      clickAdd(pkmn) {
+        this.$store.commit('team/add', pkmn);
+        this.$buefy.toast.open({
+          message: 'Pokémon ajouté à l\'équipe !',
+          type: 'is-success'
+        })
       }
     }
   }
@@ -86,5 +100,8 @@
 <style scoped>
   .v-align {
     line-height: 48px;
+  }
+  .td-v-align {
+    vertical-align: middle;
   }
 </style>
