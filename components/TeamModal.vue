@@ -5,17 +5,19 @@
     </header>
     <section class="modal-card-body">
       <div class="columns is-mobile">
-        <div v-for="(pkmn, index) in this.$store.state.team.pokemons" :key="index">
-          <template>
-            <div class="column is-narrow has-text-centered">
-              <figure class="image is-96x96">
-                <img :src="pkmn.sprite" alt="" class="modal-img">
-              </figure>
-              <b-button size="is-small" rounded type="is-danger"
-                        icon-right="close-thick" @click="clickRemove(index)" />
-            </div>
-          </template>
-        </div>
+        <draggable v-model="team" group="people" @start="drag=true" @end="drag=false" class="drag">
+          <div v-for="(pkmn, index) in this.$store.state.team.pokemons" :key="index">
+            <template class="item">
+              <div class="column is-narrow has-text-centered">
+                <figure class="image is-96x96">
+                  <img :src="pkmn.sprite" alt="" class="modal-img">
+                </figure>
+                <b-button size="is-small" rounded type="is-danger"
+                          icon-right="close-thick" @click="clickRemove(index)" />
+              </div>
+            </template>
+          </div>
+        </draggable>
       </div>
     </section>
     <footer class="modal-card-foot">
@@ -26,7 +28,21 @@
 </template>
 
 <script>
+  import draggable from 'vuedraggable'
   export default {
+    components: {
+      draggable
+    },
+    computed: {
+      team: {
+        get() {
+          return this.$store.state.team.pokemons;
+        },
+        set(value) {
+          this.$store.commit('team/updateList', value);
+        }
+      }
+    },
     methods: {
       async copySomething() {
         try {
@@ -53,5 +69,8 @@
 <style>
   .modal-img {
     max-height: none !important;
+  }
+  .drag > div {
+    display: inline-block;
   }
 </style>

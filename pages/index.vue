@@ -56,17 +56,13 @@
               this.nextPage = pokemons.next;
               this.previousPage = pokemons.previous;
               this.total = pokemons.count;
+              const regex = /(?<=pokemon\/)(.*)(?=\/)/gm;
               pokemons.results.forEach((pkmn) => {
-                fetch(pkmn.url).then(response => {
-                  response.json().then(pkmn_details => {
-                    this.pokemons.push({
-                      id: pkmn_details.id,
-                      pkmn_name: pkmn.name.charAt(0).toUpperCase() + pkmn.name.slice(1),
-                      sprite: pkmn_details.sprites.front_default,
-                      url: pkmn.url});
-                  })
-                });
-              });
+                this.pokemons.push({
+                  id: pkmn.url.match(regex)[0],
+                  pkmn_name: pkmn.name.charAt(0).toUpperCase() + pkmn.name.slice(1),
+                  url: pkmn.url});
+                  })  ;
               this.loading = false;
             })
           })

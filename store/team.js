@@ -10,5 +10,8 @@ export const mutations = {
   },
   remove (state, index) {
     state.pokemons.splice(index, 1);
+  },
+  updateList (state, value) {
+    state.pokemons = value;
   }
 };
